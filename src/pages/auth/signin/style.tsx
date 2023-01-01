@@ -1,16 +1,16 @@
-import { StyleSheet } from "react-native";
-
+import { StatusBar, StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     local: {
         dispay: "flex",
         alignItems: "center",
         width: "100%",
+        marginTop: StatusBar.currentHeight
     },
     form: {
         display: "flex",
         flexDirection: "column",
-        width: "70%",
+        width: "85%",
         marginTop: 30,
         backgroundColor: "#E5E5E5",
         alignItems: "center",
@@ -25,28 +25,29 @@ const style = StyleSheet.create({
 
     },
     title: {
-        fontSize: 17,
-        marginTop: 10,
+        fontSize: 21,
+        marginTop: 20,
     },
     inputEmail: {
-        width: 152,
-        height: 25,
+        width: 187,
+        height: 30,
         backgroundColor: "white",
         borderWidth: 1,
         borderColor: "black",
         paddingLeft: 3,
+        fontSize: 16
     },
     email: {
-        marginTop: 15,
+        marginTop: 30,
         display: "flex",
         alignItems: "center",
-        height: 25,
+        height: 30,
         flexDirection: "row",
-        width: 180,
+        width: 220,
     },
     leftIcon: {
-        height: 25,
-        width: 25,
+        height: 30,
+        width: 30,
         backgroundColor: "white",
         display: "flex",
         justifyContent: "center",
@@ -56,25 +57,26 @@ const style = StyleSheet.create({
         borderRightWidth: 0,
     },
     inputPassword: {
-        width: 126,
-        height: 25,
+        width: 156,
+        height: 30,
         backgroundColor: "white",
         borderWidth: 1,
         borderColor: "black",
         paddingLeft: 3,
+        fontSize: 16
     },
     password: {
-        marginTop: 15,
+        marginTop: 30,
         display: "flex",
         alignItems: "center",
-        height: 25,
+        height: 30,
         flexDirection: "row",
-        width: 180,
+        width: 220,
         textDecorationLine: "none"
     },
     RightIcon: {
-        height: 25,
-        width: 25,
+        height: 30,
+        width: 30,
         backgroundColor: "white",
         display: "flex",
         justifyContent: "center",
@@ -89,20 +91,22 @@ const style = StyleSheet.create({
         
     },
     textError: {
-        fontSize: 14,
+        fontSize: 12,
         color: "#4e4e4e"
     },
     button: {
-        width: 110,
-        height: 26,
+        width: 140,
+        height: 35,
         backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "black",
+        marginTop: 15,
+        marginBottom: 40,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        borderWidth: 1,
-        borderColor: "black",
-        marginTop: 10,
-        marginBottom: 20
+        textAlign: "center",
+        textAlignVertical: "center"
     }
 })  
 

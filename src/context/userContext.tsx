@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react"
 import api from "./api"
 
-type User = {
+export type User = {
     name: string
     profile_image: string
     id: string
@@ -37,9 +37,9 @@ export const AuthContex = createContext({} as AuthContextData)
 function AuthProvider(props: AuthProviderProps){
     const [ user, setUser ] = useState<User | null>(null)
 
-    async function Register(data: Pick<Props, "navigate"|"setError">){
+    async function Register(data: Pick<Props, "navigate"|"setError"|"email"|"password"|"name">){
         try {
-            const response = await api.post<Pick<Props, "token"|"user">>("Register", data)
+            const response = await api.post<Pick<Props, "token"|"user">>("Register", { email: data.email, password: data.password, name: data.name })
 
             if (response.status == 200){
                 setUser({
@@ -48,16 +48,16 @@ function AuthProvider(props: AuthProviderProps){
                     id: response.data.user.id,
                 })
                 sessionStorage.setItem("token", response.data.token)
-                data.navigate("/")
+                data.navigate("/home")
             }
         } catch (error: any) {
             data.setError(error.response.data.error)
         }
     }
 
-    async function Authenticate(data: Pick<Props, "navigate"|"setError">){
+    async function Authenticate(data: Pick<Props, "navigate"|"setError"|"email"|"password">){
         try {
-            const response = await api.post<Pick<Props, "token"|"user">>("Authenticate", data)
+            const response = await api.post<Pick<Props, "token"|"user">>("Authenticate", { email: data.email, password: data.password})
 
             if (response.status == 200){
                 setUser({
@@ -66,7 +66,7 @@ function AuthProvider(props: AuthProviderProps){
                     id: response.data.user.id,
                 })
                 sessionStorage.setItem("token", response.data.token)
-                data.navigate("/")
+                data.navigate("/home")
             }
         } catch (error: any) {
             data.setError(error.response.data.error)

@@ -48,7 +48,7 @@ export type Message = {
 
 export interface MessagesState{
     readonly data: Message[]
-    readonly chat: Omit<Message, "id"|"toId"|"contactId"|"to"|"from">[]
+    readonly chat: Message[]
     readonly loading: boolean
     readonly error: boolean
 }

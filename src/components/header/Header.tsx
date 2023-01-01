@@ -15,7 +15,7 @@ export default function Header(){
             </View>
             <View style={style.user}>
                 <View>
-                    <Icons name="person-add" size={20}/>
+                    <Icons name="search-sharp" size={25}/>
                 </View>
                 <View style={style.profile}>
                     <Image style={style.image} source={{ uri: user?.profile_image == "" ? ProfileImage : user?.profile_image }}/>

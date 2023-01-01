@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const style = StyleSheet.create({
     header: {
         width: "100%",
-        height: "50px",
+        height: 60,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -13,7 +13,7 @@ const style = StyleSheet.create({
     logo: {
         marginLeft: 20,
         width: 80,
-        height: 40,
+        height: 50,
         backgroundColor: "#b9b9b9",
         display: "flex",
         alignItems: "center",
@@ -26,8 +26,8 @@ const style = StyleSheet.create({
         alignItems: "center"
     },
     profile: {
-        width: 40,
-        height: 40,
+        width: 50,
+        height: 50,
         borderRadius: 100,
         backgroundColor: "#b9b9b9",
         display: "flex",

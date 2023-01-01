@@ -1,3 +1,5 @@
+import { User } from "../../../context/userContext"
+
 export enum ContactsTypes{
     "LOAD_REQUEST" = "@Contacts/LOAD_REQUEST",
     "LOAD_SUCCESS" = "@Contacts/LOAD_SUCCESS",
@@ -8,12 +10,16 @@ export enum ContactsTypes{
     "ADD_FAILURE" = "@Contacts/ADD_FAILURE",
 
     "FILTER_REQUEST" = "@Contacts/FILTER_REQUEST",
+
+    "ADD_CURRENTCONTACT" = "@Contacts/ADD_CURRENTCONTACT",
 }
 
 export type Payload = {
     name: string
     setLoad: Function
     userId: string
+    profile_image: string
+    id: string
 }
 
 export type Contact = {
@@ -35,6 +41,7 @@ export type Contact = {
 export interface ContactsState{
     readonly data: Contact[]
     readonly search: Contact[]
+    currentContact: User | null
     readonly loading: boolean
     readonly error: boolean
 }
