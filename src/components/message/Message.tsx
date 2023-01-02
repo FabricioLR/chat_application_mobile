@@ -12,7 +12,7 @@ export default function Message(props: MessageProps){
     const { user } = useContext(AuthContex)
 
     return(
-        <View style={user?.id == props.message.from.id ? style.owner : style.other}>
+        <View style={user?.id == props.message.fromId ? style.owner : style.other}>
             <Text style={style.message}>{props.message.message}</Text>
         </View>
     )

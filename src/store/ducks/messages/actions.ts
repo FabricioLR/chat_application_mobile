@@ -11,4 +11,4 @@ export const addFailure = () => action(MessagesTypes.ADD_FAILURE)
 
 export const filterRequest = (payload: Omit<Payload, "message"|"already">) => action(MessagesTypes.FILTER_REQUEST, { payload })
 
-export const messageRequest = (payload: Omit<Payload, "contactId">) => action(MessagesTypes.MESSAGE_REQUEST, { payload })
+export const messageRequest = (payload: Pick<Payload, "message"|"already">) => action(MessagesTypes.MESSAGE_REQUEST, { payload })

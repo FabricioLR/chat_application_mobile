@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState } from "react"
 import api from "./api"
+import storeData from "./storeData"
 
 export type User = {
     name: string
@@ -47,7 +48,7 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
-                sessionStorage.setItem("token", response.data.token)
+                await storeData.Set({ name: "token", value: response.data.token })
                 data.navigate("/home")
             }
         } catch (error: any) {
@@ -65,17 +66,18 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
-                sessionStorage.setItem("token", response.data.token)
+                await storeData.Set({ name: "token", value: response.data.token })
                 data.navigate("/home")
             }
         } catch (error: any) {
+            console.log(error.response.data.error)
             data.setError(error.response.data.error)
         }
     }
 
-    function SignOut(navigate: Function){
+    async function SignOut(navigate: Function){
         setUser(null)
-        sessionStorage.removeItem("token")
+        await storeData.Remove({ name: "token" })
         navigate("/signin")
     }
 
@@ -83,7 +85,7 @@ function AuthProvider(props: AuthProviderProps){
         try {
             const response = await api.get<Pick<Props, "user">>("AuthenticateByToken", {
                 headers: {
-                    token: sessionStorage.getItem("token")
+                    token: await storeData.Get({ name: "token" })
                 }
             })
 
@@ -108,7 +110,7 @@ function AuthProvider(props: AuthProviderProps){
         try {
             const response = await api.post<Pick<Props, "user">>("ChangeUserImage", formData, {
                 headers: {
-                    token: sessionStorage.getItem("token")
+                    token: await storeData.Get({ name: "token" })
                 }
             })
 
@@ -131,7 +133,7 @@ function AuthProvider(props: AuthProviderProps){
                 password: data.password
             }, {
                 headers: {
-                    token: sessionStorage.getItem("token")
+                    token: await storeData.Get({ name: "token" })
                 }
             })
 

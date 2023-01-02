@@ -28,6 +28,23 @@ const style = StyleSheet.create({
         fontSize: 21,
         marginTop: 20,
     },
+    inputName: {
+        width: 187,
+        height: 30,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "black",
+        paddingLeft: 3,
+        fontSize: 16
+    },
+    name: {
+        marginTop: 30,
+        display: "flex",
+        alignItems: "center",
+        height: 30,
+        flexDirection: "row",
+        width: 220,
+    },
     inputEmail: {
         width: 187,
         height: 30,
@@ -101,21 +118,13 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         marginTop: 15,
-        marginBottom: 15,
+        marginBottom: 40,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
         textAlignVertical: "center"
-    },
-    signup: {
-        width: 220,
-        fontSize: 12,
-        marginBottom: 20
-    },
-    link: {
-        color: "#8300d5"
     }
-})  
+})
 
 export default style

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ecommerce_mobile",
-    "slug": "ecommerce_mobile",
+    "name": "chat",
+    "slug": "chat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

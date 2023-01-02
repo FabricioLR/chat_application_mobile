@@ -14,17 +14,7 @@ export enum MessagesTypes{
 
 export type Payload = {
     contactId: string
-    message: Omit<Message, "id"|"toId"|"to"|"from"> | string
-    already: boolean
-}
-
-export type AddMessagePayload = {
-    contactId: string
-    message: string
-}
-
-export type MessagePayload = {
-    message: Omit<Message, "id"|"toId"|"to"|"from">
+    message: Pick<Message, "id"|"fromId"|"message"|"contactId"> | string
     already: boolean
 }
 

@@ -1,43 +1,43 @@
+import { useLinkTo } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { AuthContex } from "../../../context/userContext";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons"
+import IconsF from "react-native-vector-icons/FontAwesome"
 import style from "./style";
-import { Link, useLinkTo } from "@react-navigation/native";
 
-export default function SignIn(){
+export default function SignUp(){
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [show, setShow] = useState(false)
-    const [load, setLoad] = useState("Sign In")
+    const [load, setLoad] = useState("Sign Up")
     const [error, setError] = useState("")
     const navigate = useLinkTo()
-    const { Authenticate, VerifyToken } = useContext(AuthContex)
+    const {  Register } = useContext(AuthContex)
 
-    useEffect(() => {
-        (async () => {
-            const response = await VerifyToken()
-            if (response.status == 200){
-                navigate("/home")
-            }
-        })()
-    }, [])
-
-    async function authenticate(){
-        setLoad("Signing In...")
+    async function register(){
+        setLoad("Signing Up...")
         setError("")
-        await Authenticate({
-            email, password, setError, navigate
+        await Register({
+            name, email, password, setError, navigate
         })
         setEmail("")
         setPassword("")
-        setLoad("Sign In")
+        setName("")
+        setLoad("Sign Up")
     }
 
     return(
         <View style={style.local}>
             <View style={style.form}>
                 <Text style={style.title}>Welcome</Text>
+                <View style={style.name}>
+                    <View style={style.leftIcon}>
+                        <IconsF name="user" size={15}/>
+                    </View>
+                    <TextInput autoCapitalize='none' value={name} placeholderTextColor={"#00000078"} textContentType="nickname" style={style.inputName} placeholder="Name" onChangeText={(value) => setName(value)}/>
+                </View>
                 <View style={style.email}>
                     <View style={style.leftIcon}>
                         <Icons name="email" size={15}/>
@@ -63,10 +63,9 @@ export default function SignIn(){
                 <View style={style.error}>
                     <Text style={style.textError}>{error}</Text>
                 </View>
-                <TouchableOpacity disabled={load == "Signing In..." ? true : false} onPress={authenticate}>
+                <TouchableOpacity disabled={load == "Signing Up..." ? true : false} onPress={register}>
                     <Text style={style.button}>{load}</Text>
                 </TouchableOpacity>
-                <Text style={style.signup}>Don't have an account? <Link style={style.link} to="/signup">Sign Up</Link></Text>
             </View>
         </View>
     )

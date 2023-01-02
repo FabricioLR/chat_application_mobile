@@ -6,6 +6,8 @@ import AuthProvider from "./src/context/userContext";
 import { Provider } from "react-redux";
 import store from "./src/store";
 import Chat from "./src/pages/chat/Chat";
+import Profile from "./src/pages/profile/Profile";
+import SignUp from "./src/pages/auth/signup/SignUp";
 
 const Stack = createNativeStackNavigator()
 
@@ -14,10 +16,12 @@ export default function App() {
     <Provider store={store}>
       <AuthProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="home" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="home" component={Home} options={{ }}/>
+          <Stack.Navigator initialRouteName="signin" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="home" component={Home} />
             <Stack.Screen name="signin" component={SignIn} />
+            <Stack.Screen name="signup" component={SignUp} />
             <Stack.Screen name="chat" component={Chat} />
+            <Stack.Screen name="profile" component={Profile} options={{ headerShown: true, title: "Profile" }} />
           </Stack.Navigator>
         </NavigationContainer>
       </AuthProvider>

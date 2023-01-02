@@ -20,6 +20,7 @@ export type Payload = {
     userId: string
     profile_image: string
     id: string
+    setError: Function
 }
 
 export type Contact = {
@@ -38,10 +39,14 @@ export type Contact = {
     }
 }
 
+export interface CurrentContact extends User {
+    contactId: string
+}
+
 export interface ContactsState{
     readonly data: Contact[]
     readonly search: Contact[]
-    currentContact: User | null
+    readonly currentContact: CurrentContact
     readonly loading: boolean
     readonly error: boolean
 }

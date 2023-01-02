@@ -1,6 +1,5 @@
-import { useLinkTo } from "@react-navigation/native";
 import { useContext, useEffect, useState, } from "react";
-import { Text, View, FlatList, SafeAreaView, FlatListProps } from "react-native";
+import { View, FlatList, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/header/Header";
 import Contact from "../../components/contact/Contact";
@@ -9,42 +8,52 @@ import { ApplicationState } from "../../store";
 import { Contact as contact, ContactsTypes } from "../../store/ducks/contacts/types";
 import { MessagesTypes } from "../../store/ducks/messages/types";
 import style from "./style";
-
+import Search from "../../components/search/Search";
+import socket from "../../context/socket";
 
 type RenderContactsProps = {
     item: contact
 }
 
 export default function Home(){
-    const navigate = useLinkTo()
     const dispatch = useDispatch()
+    const [show, setShow] = useState(false)
     const State = useSelector(state => state) as ApplicationState
-    const { user, VerifyToken } = useContext(AuthContex)
+    const { user } = useContext(AuthContex)
 
     useEffect(() => {
-        (async () => {
-            const response = await VerifyToken()
-            if (response.status != 200){
-                navigate("/signin")
-            } else {
-                dispatch({ type: ContactsTypes.LOAD_REQUEST })
-                dispatch({ type: MessagesTypes.LOAD_REQUEST})
-                //socket.emit("whoami", response.name)
-            }
-        })()
+        dispatch({ type: ContactsTypes.LOAD_REQUEST })
+        dispatch({ type: MessagesTypes.LOAD_REQUEST})
+        socket.emit("whoami", user?.name)
     }, [])
 
-    console.log(State)
+    function search(name: string){
+        dispatch({ type: ContactsTypes.FILTER_REQUEST, payload: { name, userId: user?.id }})
+    }
 
     const renderContacts = ({ item }: RenderContactsProps) => {
         return(
-            <Contact contact={item}/>
+            <Contact contact={item} />
         )
     }
+
+    console.log(State)
+    console.log(user)
     
     return(
         <View style={style.content}>
-            <Header/>
+            {
+                show ?
+                    <Search setShow={setShow} search={search}/>
+                :
+                    null
+            }
+            {
+                show == false ?
+                    <Header setShow={setShow}/>
+                :
+                    null
+            }
             <SafeAreaView style={style.contacts}>
                 {
                     State.contacts.search[0] ?
@@ -54,7 +63,7 @@ export default function Home(){
                             keyExtractor={contact => contact.id}
                         />
                     :
-                        <></>
+                        null
                 }
             </SafeAreaView>
         </View>
