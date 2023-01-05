@@ -36,7 +36,8 @@ export default function Contact(props: ContactProps){
                 name: props.contact.user1Id == user?.id ? props.contact.user2.name : props.contact.user1.name,
                 id: props.contact.user1Id == user?.id ? props.contact.user2.id : props.contact.user1.id,
                 profile_image: props.contact.user1Id == user?.id ? props.contact.user2.profile_image : props.contact.user1.profile_image,
-                contactId: props.contact.id
+                contactId: props.contact.id,
+                online: false
             }})
             dispatch({ type: MessagesTypes.FILTER_REQUEST, payload: { contactId: props.contact.id }})
             navigate("/chat")

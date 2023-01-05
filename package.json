@@ -30,7 +30,8 @@
     "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
     "socket.io-client": "^4.5.4",
-    "typesafe-actions": "^5.1.0"
+    "typesafe-actions": "^5.1.0",
+    "expo-image-picker": "~14.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

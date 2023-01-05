@@ -6,10 +6,12 @@ import style from "./style";
 import { useLinkTo } from "@react-navigation/native";
 import { ContactsTypes } from "../../store/ducks/contacts/types";
 import { useDispatch } from "react-redux";
+import usePickImage from "../../components/pickImage/usePickImage";
 
 export default function Profile(){
     const [ uri, setUri ] = useState("")
-    const { user, SignOut } = useContext(AuthContex)
+    const [ imageUri, setImageUri ] = useState("")
+    const { user, SignOut, ChangeProfileImage } = useContext(AuthContex)
     const [name, setName] = useState("")
     const [load, setLoad] = useState("Add")
     const [error, setError] = useState("")
@@ -30,6 +32,11 @@ export default function Profile(){
         }
     }
 
+    async function pickImage(){
+        const uri = await usePickImage() as string
+        setImageUri(uri)
+    }
+
     return(
         <KeyboardAvoidingView style={style.profile} behavior="position">
             <View style={style.imageLocal}>
@@ -46,6 +53,14 @@ export default function Profile(){
                 </View>
                 <TouchableOpacity style={style.formButton} disabled={load == "Adding..." ? true : false} onPress={() => add()}>
                     <Text>{load}</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity style={style.signOut} onPress={() => pickImage()}>
+                    <Text>Select an Image</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={style.signOut} onPress={() => ChangeProfileImage({ uri: imageUri})}>
+                    <Text>Save</Text>
                 </TouchableOpacity>
             </View>
             <View style={style.buttonLocal}>

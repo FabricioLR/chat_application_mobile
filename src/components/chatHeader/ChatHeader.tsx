@@ -1,13 +1,13 @@
 import { Image, Text, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
-import { User } from "../../context/userContext";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import style from "./style";
 import ProfileImage from "../../../images/profile.png"
 import { useLinkTo } from "@react-navigation/native";
 import { useEffect, useState } from "react";
+import { CurrentContact } from "../../store/ducks/contacts/types";
 
 type ChatHeaderProps = {
-    contact: User
+    contact: CurrentContact
 }
 
 export default function ChatHeader(props: ChatHeaderProps){
@@ -32,6 +32,7 @@ export default function ChatHeader(props: ChatHeaderProps){
             </TouchableOpacity>
             <View>
                 <Text style={style.name}>{props.contact.name}</Text>
+                <Text style={style.online}>{props.contact.online ? "online" : ""}</Text>
             </View>
         </View>
     )

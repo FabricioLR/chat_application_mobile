@@ -27,6 +27,12 @@ export default function Home(){
         socket.emit("whoami", user?.name)
     }, [])
 
+    useEffect(() => {
+        socket.on("onlines", (contacts) => {
+            dispatch({ type: ContactsTypes.SET_ONLINE, payload: contacts})
+        })
+    }, [socket])
+
     function search(name: string){
         dispatch({ type: ContactsTypes.FILTER_REQUEST, payload: { name, userId: user?.id }})
     }

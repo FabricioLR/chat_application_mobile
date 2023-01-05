@@ -29,7 +29,7 @@ type Props = {
     navigate: Function
     token: string
     user: User
-    file: File
+    uri: string
     setError: Function
 }
 
@@ -104,11 +104,19 @@ function AuthProvider(props: AuthProviderProps){
     }
 
     async function ChangeProfileImage(data: Omit<Props, "token"|"user"|"name"|"navigate"|"email"|"password">){
+        /* const filename = data.uri.split('/').pop() as string
+
+        const match = /\.(\w+)$/.exec(filename)
+        const type = match ? `image/${match[1]}` : `image`
+
+        console.log(filename, type) */
         const formData = new FormData()
-        formData.append("file", data.file)
+        formData.append("file", { uri: data.uri, type: "image", name: "image"} as any)
+
+        console.log(formData)
         
         try {
-            const response = await api.post<Pick<Props, "user">>("ChangeUserImage", formData, {
+            /* const response = await api.post<Pick<Props, "user">>("ChangeUserImage", formData, {
                 headers: {
                     token: await storeData.Get({ name: "token" })
                 }
@@ -120,9 +128,10 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
-            }
+            } */
         } catch (error: any) {
-            alert(error.response.data.message)
+            console.log(error.response.data.error)
+            //alert(error.response.data.message)
         }
     }
 

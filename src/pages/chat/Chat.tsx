@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContex } from "../../context/userContext";
 import socket from "../../context/socket";
 import usekeyboard from "../../components/keyboard/UseKeyboard";
+import { ContactsTypes } from "../../store/ducks/contacts/types";
 
 type RenderMessagesProps = {
     item: message
@@ -16,7 +17,7 @@ type RenderMessagesProps = {
 
 export default function Chat(){
     const keyboardHeight = usekeyboard()
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("")
     const State = useSelector(state => state) as ApplicationState
     const { user } = useContext(AuthContex)
     const dispatch = useDispatch()
@@ -25,17 +26,32 @@ export default function Chat(){
         socket.on("contact message", (message) => {
             dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: {...message, id: String(Math.floor(Math.random() * 10000)) }, already: false }})
         })
+        socket.on("onlines", (contacts) => {
+            dispatch({ type: ContactsTypes.SET_ONLINE, payload: contacts})
+        })
     }, [socket])
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            if (State.contacts.currentContact?.name){
+                if (State.contacts.currentContact?.name in State.contacts.online){
+                    dispatch({ type: ContactsTypes.UPDATE_CURRENTCONTACT, payload: { online: true }})
+                } else {
+                    dispatch({ type: ContactsTypes.UPDATE_CURRENTCONTACT, payload: { online: false }})
+                }
+            }
+        }, 3000)
 
-    }, [])
+        return () => {
+            clearInterval(interval)
+        }
+    }, [State.contacts.online])
 
     function send(){
         if (message != ""){
-            dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: { message, fromId: user?.id, contactId: State.contacts.currentContact.contactId, id: String(Math.floor(Math.random() * 10000)), already: true } }})
-            socket.emit("message", { message, to: State.contacts.currentContact.name, fromId: user?.id, contactId: State.contacts.currentContact.contactId })
-            dispatch({ type: MessagesTypes.ADD_REQUEST, payload: { message, contactId: State.contacts.currentContact.contactId } })
+            dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: { message, fromId: user?.id, contactId: State.contacts.currentContact?.contactId, id: String(Math.floor(Math.random() * 10000)), already: true } }})
+            socket.emit("message", { message, to: State.contacts.currentContact?.name, fromId: user?.id, contactId: State.contacts.currentContact?.contactId })
+            dispatch({ type: MessagesTypes.ADD_REQUEST, payload: { message, contactId: State.contacts.currentContact?.contactId } })
             setMessage("")
         }
     }
@@ -45,6 +61,8 @@ export default function Chat(){
             <Message message={item}/>
         )
     }
+
+    //console.log(State)
 
     return(
         <View style={style.main}>

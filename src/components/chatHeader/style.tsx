@@ -34,6 +34,9 @@ const style = StyleSheet.create({
     },
     name: {
         fontSize: 15
+    },
+    online: {
+        fontSize: 12
     }
 })
 
