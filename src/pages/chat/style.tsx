@@ -3,8 +3,7 @@ import { Dimensions, StatusBar, StyleSheet } from "react-native";
 const style = StyleSheet.create({
     main: {
         backgroundColor: "#dddddd",
-        height: Dimensions.get("window").height - Number(StatusBar.currentHeight),
-        marginTop: StatusBar.currentHeight
+        height: Dimensions.get("window").height,
     },
     messages: {
         height: Dimensions.get("window").height - 105,
@@ -12,7 +11,7 @@ const style = StyleSheet.create({
     },
     send: {
         position: "absolute",
-        top: Dimensions.get('window').height - 50 - Number(StatusBar.currentHeight),
+        top: Dimensions.get('window').height - 50,
         display: "flex",
         alignItems: "center",
         flexDirection: "row",

@@ -23,7 +23,6 @@ export default function Chat(){
 
     useEffect(() => {
         socket.on("contact message", (message) => {
-            console.log(message)
             dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: {...message, id: String(Math.floor(Math.random() * 10000)) }, already: false }})
         })
     }, [socket])
@@ -36,7 +35,7 @@ export default function Chat(){
         if (message != ""){
             dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: { message, fromId: user?.id, contactId: State.contacts.currentContact.contactId, id: String(Math.floor(Math.random() * 10000)), already: true } }})
             socket.emit("message", { message, to: State.contacts.currentContact.name, fromId: user?.id, contactId: State.contacts.currentContact.contactId })
-            //dispatch({ type: MessagesTypes.ADD_REQUEST, payload: { message, contactId: State.contacts.currentContact.contactId } })
+            dispatch({ type: MessagesTypes.ADD_REQUEST, payload: { message, contactId: State.contacts.currentContact.contactId } })
             setMessage("")
         }
     }
@@ -57,7 +56,7 @@ export default function Chat(){
             }
             {
                 State.messages.chat.length > 0 ?
-                    <FlatList style={keyboardHeight > 0 ? {...style.messages, height: Dimensions.get("window").height - 135 - keyboardHeight} : style.messages}
+                    <FlatList style={keyboardHeight > 0 ? {...style.messages, height: Dimensions.get("window").height - 105 - keyboardHeight} : style.messages}
                         data={State.messages.chat}
                         renderItem={renderMessages}
                         keyExtractor={message => message.id}
@@ -65,7 +64,7 @@ export default function Chat(){
                 :
                     null
             }
-            <KeyboardAvoidingView style={keyboardHeight > 0 ? { ...style.send, top: Dimensions.get('window').height - 50 - Number(StatusBar.currentHeight) - keyboardHeight } : style.send} behavior="padding">
+            <KeyboardAvoidingView style={keyboardHeight > 0 ? { ...style.send, top: Dimensions.get('window').height - 50 - keyboardHeight } : style.send} behavior="padding">
                 <TextInput value={message} style={style.input} onChangeText={(value) => setMessage(value)}/>
                 <TouchableOpacity style={style.button} onPress={() => send()}>
                     <Text>Send</Text>

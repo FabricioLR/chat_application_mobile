@@ -36,9 +36,6 @@ export default function Home(){
             <Contact contact={item} />
         )
     }
-
-    console.log(State)
-    console.log(user)
     
     return(
         <View style={style.content}>
