@@ -8,6 +8,7 @@ import { MessagesTypes } from "../../store/ducks/messages/types"
 import style from "./style"
 import ProfileImage from "../../../images/profile.png"
 import { ApplicationState } from "../../store"
+import socket from "../../context/socket"
 
 type ContactProps = {
     contact: contact
@@ -43,6 +44,7 @@ export default function Contact(props: ContactProps){
             dispatch({ type: MessagesTypes.UPDATE_MESSAGE, payload: { contactId: props.contact.id }})
             dispatch({ type: MessagesTypes.UPDATE_MESSAGE_FRONT, payload: { contactId: props.contact.id }})
             dispatch({ type: MessagesTypes.FILTER_REQUEST, payload: { contactId: props.contact.id }})
+            socket.emit("updateMessageStatus", { contactId: props.contact.id, to: props.contact.user1Id == user?.id ? props.contact.user2.name : props.contact.user1.name })
             navigate("/chat")
         }}>
             <View style={style.localImage}>
@@ -53,8 +55,8 @@ export default function Contact(props: ContactProps){
             </View>
             {
                     State.messages.data.filter(message => message.contactId == props.contact.id && message.viewed == false && message.fromId != user?.id).length > 0 ?
-                        <View >
-                            <Text>{State.messages.data.filter(message => message.contactId == props.contact.id && message.viewed == false && message.fromId != user?.id).length}</Text>
+                        <View style={style.viewed}>
+                            <Text style={style.value}>{State.messages.data.filter(message => message.contactId == props.contact.id && message.viewed == false && message.fromId != user?.id).length}</Text>
                         </View>
                     :
                     null

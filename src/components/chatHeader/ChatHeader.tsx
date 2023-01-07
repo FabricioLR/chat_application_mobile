@@ -39,8 +39,11 @@ export default function ChatHeader(props: ChatHeaderProps){
                 <Text style={style.name}>{props.contact.name}</Text>
                 {
                     State.contacts.currentContact && State.contacts.onlines ?
-                        <Text style={style.online}>{State.contacts.currentContact!.name in State.contacts.onlines ? "online" : ""}</Text>
+                        State.contacts.currentContact!.name in State.contacts.onlines ?
+                            <Text style={style.online}>online</Text>
                         : 
+                        null
+                    :
                     null
                 }
             </View>

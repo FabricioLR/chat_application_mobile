@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, } from "react";
-import { View, FlatList, SafeAreaView } from "react-native";
+import { View, FlatList, SafeAreaView, StatusBar } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/header/Header";
 import Contact from "../../components/contact/Contact";
@@ -29,11 +29,12 @@ export default function Home(){
 
     useEffect(() => {
         socket.on("server message", (message) => {
-            console.log("1", State.contacts.currentContact)
-            dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: {...message, id: String(Math.floor(Math.random() * 10000)) }, already: false }})
-            console.log("2", State.contacts.currentContact)
+            const contactMessages = State.messages.data.filter(msg => msg.contactId == message.contactId)
+            const latestMessage = contactMessages[contactMessages.length - 1]
+            if (latestMessage.message != message.message && latestMessage.createdAt != message.createdAt){
+                dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message, already: false }})
+            }
             if (message.contactId == State.contacts.currentContact?.contactId){
-                console.log("3", State.contacts.currentContact)
                 dispatch({ type: MessagesTypes.UPDATE_MESSAGE, payload: { contactId: message.contactId }})
                 dispatch({ type: MessagesTypes.UPDATE_MESSAGE_FRONT, payload: { contactId:  message.contactId }})
                 socket.emit("updateMessageStatus", { contactId: message.contactId, to: State.contacts.currentContact?.name })
@@ -43,9 +44,15 @@ export default function Home(){
             dispatch({ type: ContactsTypes.SET_ONLINES, payload: contacts})
         })
         socket.on("server updateMessageStatus", (data) => {
+            console.log(data)
             dispatch({ type: MessagesTypes.UPDATE_MESSAGE_FRONT, payload: { contactId: data.contactId, currentContactId: State.contacts.currentContact?.contactId }})
         })
-    }, [socket, State])
+        return () => {
+            socket.off("server message")
+            socket.off("server onlines")
+            socket.off("server updateMessageStatus")
+        }
+    }, [socket, State.contacts.currentContact, State.messages.data])
 
     function search(name: string){
         dispatch({ type: ContactsTypes.FILTER_REQUEST, payload: { name, userId: user?.id }})
@@ -56,8 +63,6 @@ export default function Home(){
             <Contact contact={item} />
         )
     }
-
-    //console.log(State)
     
     return(
         <View style={style.content}>

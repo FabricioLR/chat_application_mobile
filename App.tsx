@@ -8,12 +8,14 @@ import store from "./src/store";
 import Chat from "./src/pages/chat/Chat";
 import Profile from "./src/pages/profile/Profile";
 import SignUp from "./src/pages/auth/signup/SignUp";
+import { StatusBar } from "react-native";
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
     <Provider store={store}>
+      <StatusBar barStyle={"dark-content"} backgroundColor="#E5E5E5"/>
       <AuthProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="signin" screenOptions={{ headerShown: false }}>

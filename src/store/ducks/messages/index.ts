@@ -27,9 +27,9 @@ const reducer: Reducer<MessagesState> = (state = INITIAL_STATE, action) => {
             return { ...state, chat: filtred }
         case MessagesTypes.MESSAGE_REQUEST:
             if (action.payload.message.already){
-                return { ...state, chat: [...state.chat, action.payload.message] }
+                return { ...state, chat: [...state.chat, { ...action.payload.message, viewed: false }] }
             } else {
-                return { ...state, chat: [...state.chat, action.payload.message], data: [...state.data, action.payload.message] }
+                return { ...state, chat: [...state.chat, { ...action.payload.message, viewed: false }], data: [...state.data, { ...action.payload.message, viewed: false }] }
             }
         case MessagesTypes.UPDATE_MESSAGE_FRONT:
             if (action.payload.contactId == action.payload.currentContactId){

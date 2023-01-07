@@ -18,7 +18,7 @@ export enum MessagesTypes{
 
 export type Payload = {
     contactId: string
-    message: Pick<Message, "id"|"fromId"|"message"|"contactId"|"viewed"> | string
+    message: Pick<Message, "id"|"fromId"|"message"|"contactId"|"viewed"|"createdAt"> | string
     already: boolean
 }
 
@@ -29,6 +29,7 @@ export type Message = {
     message: string
     contactId: string
     viewed: boolean
+    createdAt: Date
     to: {
         id: string
         name: string

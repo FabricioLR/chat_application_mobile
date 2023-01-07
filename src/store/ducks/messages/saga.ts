@@ -69,7 +69,6 @@ export function* UpdateMessage({ payload }: ReturnType<typeof updMessage>){
     try {
         yield call(updateMessage, { contactId })
     } catch (error: any) {
-        alert(error.response.data.error)
         yield put(addFailure())
     }
 }

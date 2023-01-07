@@ -18,11 +18,15 @@ export default function Message(props: MessageProps){
             {
                 user?.id == props.message.fromId ?
                     props.message.viewed ?
-                        <Icon style={style.viewed} name="check-all" size={15}/>
+                        <View  style={style.viewed}>
+                            <Icon name="check-all" size={15}/>
+                        </View>
                     :
-                        <Icon style={style.viewed} name="check"/>
-                    :
-                null
+                        <View style={style.viewed}>
+                            <Icon name="check" size={15}/>
+                        </View>
+                :
+                    null
             }
         </View>
     )

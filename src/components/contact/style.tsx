@@ -28,6 +28,19 @@ const style = StyleSheet.create({
     name: {
         fontSize: 17,
     },
+    viewed: {
+        marginLeft: 20,
+        width: 20,
+        height: 20,
+        borderRadius: 100,
+        backgroundColor: "#b9b9b9",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    value: {
+        fontSize: 12
+    }
 })
 
 export default style
