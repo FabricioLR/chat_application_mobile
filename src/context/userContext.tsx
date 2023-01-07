@@ -26,7 +26,7 @@ type Props = {
     email: string
     name: string
     password: string
-    navigate: Function
+    navigate: any
     token: string
     user: User
     uri: string
@@ -40,7 +40,7 @@ function AuthProvider(props: AuthProviderProps){
 
     async function Register(data: Pick<Props, "navigate"|"setError"|"email"|"password"|"name">){
         try {
-            const response = await api.post<Pick<Props, "token"|"user">>("Register", { email: data.email, password: data.password, name: data.name })
+            const response = await api.post<Pick<Props, "token"|"user"|"navigate">>("Register", { email: data.email, password: data.password, name: data.name })
 
             if (response.status == 200){
                 setUser({
@@ -48,8 +48,8 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
+                data.navigate.navigate("home")
                 await storeData.Set({ name: "token", value: response.data.token })
-                data.navigate("/home")
             }
         } catch (error: any) {
             data.setError(error.response.data.error)
@@ -58,7 +58,7 @@ function AuthProvider(props: AuthProviderProps){
 
     async function Authenticate(data: Pick<Props, "navigate"|"setError"|"email"|"password">){
         try {
-            const response = await api.post<Pick<Props, "token"|"user">>("Authenticate", { email: data.email, password: data.password})
+            const response = await api.post<Pick<Props, "user"|"token"|"navigate">>("Authenticate", { email: data.email, password: data.password})
 
             if (response.status == 200){
                 setUser({
@@ -66,8 +66,8 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
+                data.navigate.navigate("home")
                 await storeData.Set({ name: "token", value: response.data.token })
-                data.navigate("/home")
             }
         } catch (error: any) {
             console.log(error.response.data.error)
@@ -75,10 +75,9 @@ function AuthProvider(props: AuthProviderProps){
         }
     }
 
-    async function SignOut(navigate: Function){
+    async function SignOut(){
         setUser(null)
         await storeData.Remove({ name: "token" })
-        navigate("/signin")
     }
 
     async function VerifyToken(){
@@ -96,7 +95,6 @@ function AuthProvider(props: AuthProviderProps){
                     id: response.data.user.id,
                 })
             }
-
             return { status: response.status, name: response.data.user.name}
         } catch(error) {
             return { status: 400 }

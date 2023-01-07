@@ -31,6 +31,32 @@ const reducer: Reducer<MessagesState> = (state = INITIAL_STATE, action) => {
             } else {
                 return { ...state, chat: [...state.chat, action.payload.message], data: [...state.data, action.payload.message] }
             }
+        case MessagesTypes.UPDATE_MESSAGE_FRONT:
+            if (action.payload.contactId == action.payload.currentContactId){
+                const chatMessages = state.chat.map(message => {
+                    return { ...message, viewed: true }
+                })
+
+                const dataMessages = state.data.map(message => {
+                    if (message.contactId == action.payload.contactId){
+                        return { ...message, viewed: true }
+                    } else {
+                        return { ...message }
+                    }
+                })
+
+                return { ...state, chat: chatMessages, data: dataMessages }
+            } else {
+                const dataMessages = state.data.map(message => {
+                    if (message.contactId == action.payload.contactId){
+                        return { ...message, viewed: true }
+                    } else {
+                        return { ...message }
+                    }
+                })
+
+                return { ...state, data: dataMessages }
+            }
         default:
             return state
     }

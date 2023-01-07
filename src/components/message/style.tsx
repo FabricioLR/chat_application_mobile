@@ -9,6 +9,8 @@ const style = StyleSheet.create({
         borderBottomLeftRadius: 10,
         marginLeft: 10,
         marginTop: 10,
+        display: "flex",
+        flexDirection: "row"
     },
     owner: {
         width: 200,
@@ -19,10 +21,19 @@ const style = StyleSheet.create({
         marginRight: 10,
         marginTop: 10,
         left: Dimensions.get('window').width - 210,
-        textAlign: "end"
+        textAlign: "end",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end"
     },
     message: {
         margin: 5
+    },
+    viewed: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 2
     }
 })
 

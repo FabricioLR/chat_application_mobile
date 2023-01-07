@@ -10,11 +10,15 @@ export enum MessagesTypes{
     "FILTER_REQUEST" = "@Messages/FILTER_REQUEST",
 
     "MESSAGE_REQUEST" = "@Messages/MESSAGE_REQUEST",
+
+    "UPDATE_MESSAGE" = "@Messages/UPDATE_MESSAGE",
+
+    "UPDATE_MESSAGE_FRONT" = "@Messages/UPDATE_MESSAGE_FRONT",
 }
 
 export type Payload = {
     contactId: string
-    message: Pick<Message, "id"|"fromId"|"message"|"contactId"> | string
+    message: Pick<Message, "id"|"fromId"|"message"|"contactId"|"viewed"> | string
     already: boolean
 }
 
@@ -24,6 +28,7 @@ export type Message = {
     toId: string
     message: string
     contactId: string
+    viewed: boolean
     to: {
         id: string
         name: string

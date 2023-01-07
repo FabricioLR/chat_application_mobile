@@ -13,5 +13,6 @@ export const filterRequest = (payload: Pick<Payload, "name"|"userId">) => action
 
 export const addCurrentContact = (payload: Pick<Payload, "name"|"id"|"profile_image"|"online">) => action(ContactsTypes.ADD_CURRENTCONTACT, { payload })
 
-export const setOnline = (payload: Online[]) => action(ContactsTypes.SET_ONLINE, { payload})
-export const updateCurrentContact = (payload: Pick<Payload, "online">) => action(ContactsTypes.UPDATE_CURRENTCONTACT, { payload })
+export const removeCurrentContact = () => action(ContactsTypes.REMOVE_CURRENTCONTACT)
+
+export const setOnline = (payload: Online) => action(ContactsTypes.SET_ONLINES, { payload})

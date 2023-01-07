@@ -1,7 +1,7 @@
 import { call, put } from "@redux-saga/core/effects";
 import api from "../../../context/api";
 import storeData from "../../../context/storeData";
-import { loadFailure, loadSuccess, addRequest, addSuccess, addFailure} from "./actions";
+import { loadFailure, loadSuccess, addRequest, addSuccess, addFailure, updateMessage as updMessage} from "./actions";
 import { Payload, Message } from "./types"
 
 type ResponseData = {
@@ -31,6 +31,16 @@ async function addMessage(payload: Pick<Payload, "contactId"|"message">){
     })
 }
 
+async function updateMessage(payload: Pick<Payload, "contactId">){
+    return await api.post("/UpdateMessageStatus", {
+        contactId: payload.contactId
+    }, {
+        headers: {
+            token: await storeData.Get({ name: "token"})
+        }
+    })
+}
+
 export function* GetMessages(){
     try {
         const response: ResponseData = yield call(getMessages)
@@ -49,6 +59,17 @@ export function* AddMessage({ payload }: ReturnType<typeof addRequest>){
 
         yield put(addSuccess(response.data.message))
     } catch (error: any) {
+        yield put(addFailure())
+    }
+}
+
+export function* UpdateMessage({ payload }: ReturnType<typeof updMessage>){
+    const { contactId } = payload as any
+
+    try {
+        yield call(updateMessage, { contactId })
+    } catch (error: any) {
+        alert(error.response.data.error)
         yield put(addFailure())
     }
 }

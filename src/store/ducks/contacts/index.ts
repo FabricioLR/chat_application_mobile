@@ -5,7 +5,7 @@ const INITIAL_STATE: ContactsState = {
     data: [],
     search: [],
     currentContact: null,
-    online: [],
+    onlines: null,
     loading: false,
     error: false,
 }
@@ -46,11 +46,10 @@ const reducer: Reducer<ContactsState> = (state = INITIAL_STATE, action) => {
             }
         case ContactsTypes.ADD_CURRENTCONTACT:
             return { ...state, currentContact: action.payload}
-        case ContactsTypes.SET_ONLINE:
-            return { ...state, online: action.payload }
-        case ContactsTypes.UPDATE_CURRENTCONTACT:
-            console.log(action.payload)
-            return { ...state, currentContact: { ...state.currentContact, online: action.payload.online}}
+        case ContactsTypes.REMOVE_CURRENTCONTACT:
+            return { ...state, currentContact: null}
+        case ContactsTypes.SET_ONLINES:
+            return { ...state, onlines: action.payload }
         default:
             return state
     }

@@ -28,10 +28,24 @@ export default function Home(){
     }, [])
 
     useEffect(() => {
-        socket.on("onlines", (contacts) => {
-            dispatch({ type: ContactsTypes.SET_ONLINE, payload: contacts})
+        socket.on("server message", (message) => {
+            console.log("1", State.contacts.currentContact)
+            dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: {...message, id: String(Math.floor(Math.random() * 10000)) }, already: false }})
+            console.log("2", State.contacts.currentContact)
+            if (message.contactId == State.contacts.currentContact?.contactId){
+                console.log("3", State.contacts.currentContact)
+                dispatch({ type: MessagesTypes.UPDATE_MESSAGE, payload: { contactId: message.contactId }})
+                dispatch({ type: MessagesTypes.UPDATE_MESSAGE_FRONT, payload: { contactId:  message.contactId }})
+                socket.emit("updateMessageStatus", { contactId: message.contactId, to: State.contacts.currentContact?.name })
+            }
         })
-    }, [socket])
+        socket.on("server onlines", (contacts) => {
+            dispatch({ type: ContactsTypes.SET_ONLINES, payload: contacts})
+        })
+        socket.on("server updateMessageStatus", (data) => {
+            dispatch({ type: MessagesTypes.UPDATE_MESSAGE_FRONT, payload: { contactId: data.contactId, currentContactId: State.contacts.currentContact?.contactId }})
+        })
+    }, [socket, State])
 
     function search(name: string){
         dispatch({ type: ContactsTypes.FILTER_REQUEST, payload: { name, userId: user?.id }})
@@ -42,6 +56,8 @@ export default function Home(){
             <Contact contact={item} />
         )
     }
+
+    //console.log(State)
     
     return(
         <View style={style.content}>

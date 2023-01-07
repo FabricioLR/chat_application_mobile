@@ -6,12 +6,12 @@ const style = StyleSheet.create({
         height: Dimensions.get("window").height,
     },
     messages: {
-        height: Dimensions.get("window").height - 105,
+        height: Dimensions.get("window").height - 115,
         flexGrow: 0,
     },
     send: {
         position: "absolute",
-        top: Dimensions.get('window').height - 50,
+        top: Dimensions.get('window').height - 60,
         display: "flex",
         alignItems: "center",
         flexDirection: "row",

@@ -3,6 +3,7 @@ import { Text, View } from "react-native"
 import { AuthContex } from "../../context/userContext"
 import { Message as message } from "../../store/ducks/messages/types"
 import style from "./style"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
 type MessageProps = {
     message: message
@@ -10,10 +11,19 @@ type MessageProps = {
 
 export default function Message(props: MessageProps){
     const { user } = useContext(AuthContex)
-
+    
     return(
         <View style={user?.id == props.message.fromId ? style.owner : style.other}>
             <Text style={style.message}>{props.message.message}</Text>
+            {
+                user?.id == props.message.fromId ?
+                    props.message.viewed ?
+                        <Icon style={style.viewed} name="check-all" size={15}/>
+                    :
+                        <Icon style={style.viewed} name="check"/>
+                    :
+                null
+            }
         </View>
     )
 }
