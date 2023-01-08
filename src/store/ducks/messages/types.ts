@@ -1,4 +1,7 @@
+import { User } from "../../../context/userContext"
+
 export enum MessagesTypes{
+    "REMOVE_ALL" = "@Messages/REMOVE_ALL",
     "LOAD_REQUEST" = "@Messages/LOAD_REQUEST",
     "LOAD_SUCCESS" = "@Messages/LOAD_SUCCESS",
     "LOAD_FAILURE" = "@Messages/LOAD_FAILURE",
@@ -30,16 +33,8 @@ export type Message = {
     contactId: string
     viewed: boolean
     createdAt: Date
-    to: {
-        id: string
-        name: string
-        profile_image: string
-    }
-    from: {
-        id: string
-        name: string
-        profile_image: string
-    }
+    to: User
+    from: User
 }
 
 export interface MessagesState{

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, } from "react";
-import { View, FlatList, SafeAreaView, StatusBar } from "react-native";
+import { View, FlatList, SafeAreaView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/header/Header";
 import Contact from "../../components/contact/Contact";
@@ -10,21 +10,39 @@ import { MessagesTypes } from "../../store/ducks/messages/types";
 import style from "./style";
 import Search from "../../components/search/Search";
 import socket from "../../context/socket";
+import * as Notifications from 'expo-notifications';
+import registerForPushNotificationsAsync from "../../context/expoToken";
+import storeData from "../../context/storeData";
 
 type RenderContactsProps = {
     item: contact
 }
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    })
+})
+
 export default function Home(){
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
     const State = useSelector(state => state) as ApplicationState
-    const { user } = useContext(AuthContex)
+    const { user, SetToken } = useContext(AuthContex)
 
     useEffect(() => {
         dispatch({ type: ContactsTypes.LOAD_REQUEST })
         dispatch({ type: MessagesTypes.LOAD_REQUEST})
         socket.emit("whoami", user?.name)
+
+        registerForPushNotificationsAsync().then(async (token) => {
+            if(await storeData.Get({ name: "expoToken"}) != token){
+                await storeData.Set({ name: "expoToken", value: (token as string) })
+                await SetToken({ token })
+            }
+        })
     }, [])
 
     useEffect(() => {
@@ -44,7 +62,6 @@ export default function Home(){
             dispatch({ type: ContactsTypes.SET_ONLINES, payload: contacts})
         })
         socket.on("server updateMessageStatus", (data) => {
-            console.log(data)
             dispatch({ type: MessagesTypes.UPDATE_MESSAGE_FRONT, payload: { contactId: data.contactId, currentContactId: State.contacts.currentContact?.contactId }})
         })
         return () => {
@@ -63,7 +80,7 @@ export default function Home(){
             <Contact contact={item} />
         )
     }
-    
+
     return(
         <View style={style.content}>
             {

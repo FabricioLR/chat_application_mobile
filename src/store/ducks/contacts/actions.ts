@@ -1,6 +1,8 @@
 import { action } from "typesafe-actions";
 import { Contact, ContactsTypes, Online, Payload } from "./types"
 
+export const removeAll = () => action(ContactsTypes.REMOVE_ALL)
+
 export const loadRequest = () => action(ContactsTypes.LOAD_REQUEST)
 export const loadSuccess = (data: Contact[]) => action(ContactsTypes.LOAD_SUCCESS, { data })
 export const loadFailure = () => action(ContactsTypes.LOAD_FAILURE)

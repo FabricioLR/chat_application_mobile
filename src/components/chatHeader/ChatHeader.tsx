@@ -19,7 +19,7 @@ export default function ChatHeader(props: ChatHeaderProps){
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (props.contact.profile_image != ""){
+        if (props.contact.profile_image){
             setUri(props.contact.profile_image)
         }
     }, [])

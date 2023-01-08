@@ -4,7 +4,7 @@ import storeData from "./storeData"
 
 export type User = {
     name: string
-    profile_image: string
+    profile_image: string | null
     id: string
 }
 
@@ -16,6 +16,7 @@ type AuthContextData = {
     ChangeProfileImage: Function
     VerifyToken: Function
     ChangeUserCredentials: Function
+    SetToken: Function
 }
 
 type AuthProviderProps = {
@@ -48,7 +49,7 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
-                data.navigate.navigate("home")
+                data.navigate.push("home")
                 await storeData.Set({ name: "token", value: response.data.token })
             }
         } catch (error: any) {
@@ -66,17 +67,41 @@ function AuthProvider(props: AuthProviderProps){
                     profile_image: response.data.user.profile_image,
                     id: response.data.user.id,
                 })
-                data.navigate.navigate("home")
+                data.navigate.push("home")
                 await storeData.Set({ name: "token", value: response.data.token })
             }
         } catch (error: any) {
-            console.log(error.response.data.error)
             data.setError(error.response.data.error)
+        }
+    }
+
+    async function SetToken(data: Pick<Props, "token">){
+        try {
+            await api.post("SetToken", { token: data.token }, {
+                headers: {
+                    token: await storeData.Get({ name: "token" })
+                }
+            })
+        } catch (error: any) {
+            console.log("set token", error.response.data.error)
+        }
+    }
+
+    async function RemoveToken(){
+        try {
+            await api.get("RemoveToken", {
+                headers: {
+                    token: await storeData.Get({ name: "token" })
+                }
+            })
+        } catch (error: any) {
+            console.log("remove token", error.response.data.error)
         }
     }
 
     async function SignOut(){
         setUser(null)
+        await RemoveToken()
         await storeData.Remove({ name: "token" })
     }
 
@@ -101,35 +126,37 @@ function AuthProvider(props: AuthProviderProps){
         }
     }
 
-    async function ChangeProfileImage(data: Omit<Props, "token"|"user"|"name"|"navigate"|"email"|"password">){
-        /* const filename = data.uri.split('/').pop() as string
+    async function ChangeProfileImage(data: Pick<Props, "uri"|"setError">){
+        const filename = data.uri.split('/').pop() as string
 
         const match = /\.(\w+)$/.exec(filename)
         const type = match ? `image/${match[1]}` : `image`
 
-        console.log(filename, type) */
         const formData = new FormData()
-        formData.append("file", { uri: data.uri, type: "image", name: "image"} as any)
+        formData.append("file", { uri: data.uri, type, name: filename } as any)
 
-        console.log(formData)
-        
         try {
-            /* const response = await api.post<Pick<Props, "user">>("ChangeUserImage", formData, {
+            const response = await fetch('https://chatapplication.onrender.com/ChangeUserImage', {
+                method: 'POST',
+                body: formData,
                 headers: {
-                    token: await storeData.Get({ name: "token" })
+                    token: await storeData.Get({ name: "token" }) as string
                 }
             })
 
+            const dataR = await response.json()
+
             if (response.status == 200){
                 setUser({
-                    name: response.data.user.name,
-                    profile_image: response.data.user.profile_image,
-                    id: response.data.user.id,
+                    name: dataR.user.name,
+                    profile_image: dataR.user.profile_image,
+                    id: dataR.user.id,
                 })
-            } */
+            } else {
+                data.setError(dataR.error)
+            }
         } catch (error: any) {
-            console.log(error.response.data.error)
-            //alert(error.response.data.message)
+            console.log(error)
         }
     }
 
@@ -152,12 +179,12 @@ function AuthProvider(props: AuthProviderProps){
                 })
             }
         } catch (error: any) {
-            alert(error.response.data.message)
+            console.log(error.response.data.message)
         }
     }
 
     return (
-        <AuthContex.Provider value={{ user, ChangeUserCredentials, Register, Authenticate, SignOut, ChangeProfileImage, VerifyToken }}>
+        <AuthContex.Provider value={{ user, SetToken, ChangeUserCredentials, Register, Authenticate, SignOut, ChangeProfileImage, VerifyToken }}>
             {props.children}
         </AuthContex.Provider>
     )

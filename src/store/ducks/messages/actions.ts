@@ -1,6 +1,8 @@
 import { action } from "typesafe-actions";
 import { Message, MessagesTypes, Payload } from "./types"
 
+export const removeAll = () => action(MessagesTypes.REMOVE_ALL)
+
 export const loadRequest = () => action(MessagesTypes.LOAD_REQUEST)
 export const loadSuccess = (data: Message[]) => action(MessagesTypes.LOAD_SUCCESS, { data })
 export const loadFailure = () => action(MessagesTypes.LOAD_FAILURE)

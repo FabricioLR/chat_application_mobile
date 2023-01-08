@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from "react-native";
 const style = StyleSheet.create({
     profile: {
         width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height,
+        height: Dimensions.get("window").height + 20,
         display: "flex",
         alignItems: "center",
         backgroundColor: "#dddddd",
@@ -49,17 +49,17 @@ const style = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        textAlignVertical: "center"
+        textAlignVertical: "center",
     },
     form: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
     },
     formTitle: {
         width: 156,
         fontSize: 18,
         marginTop: 20,
-        marginBottom: 5
+        marginBottom: 5,
     },
     formInput: {
         width: 156,
@@ -68,7 +68,7 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         paddingLeft: 3,
-        fontSize: 16
+        fontSize: 16,
     },
     formButton: {
         width: 100,
@@ -81,17 +81,46 @@ const style = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        textAlignVertical: "center"
+        textAlignVertical: "center",
     },
     error: {
         height: 15,
         marginLeft: 5,
-        width: 156
+        width: 156,
     },
     textError: {
         fontSize: 12,
-        color: "#4e4e4e"
+        color: "#4e4e4e",
     },
+    changeImageForm: {
+        display: "flex",
+        alignItems: "center",
+    },
+    changeImageFormFile: {
+        width: 156,
+        height: 30,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "black",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        textAlignVertical: "center"
+    },
+    changeImageFormButton: {
+        width: 100,
+        height: 30,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "black",
+        marginTop: 10,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        textAlignVertical: "center",
+    }
 })
 
 export default style

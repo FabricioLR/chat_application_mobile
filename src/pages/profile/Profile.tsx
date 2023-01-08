@@ -7,6 +7,8 @@ import { useNavigation } from "@react-navigation/native";
 import { ContactsTypes } from "../../store/ducks/contacts/types";
 import { useDispatch } from "react-redux";
 import usePickImage from "../../components/pickImage/usePickImage";
+import { MessagesTypes } from "../../store/ducks/messages/types";
+import socket from "../../context/socket";
 
 export default function Profile(){
     const [ uri, setUri ] = useState("")
@@ -15,12 +17,13 @@ export default function Profile(){
     const [name, setName] = useState("")
     const [load, setLoad] = useState("Add")
     const [error, setError] = useState("")
+    const [imageError, setImageError] = useState("")
     const dispatch = useDispatch()
     const navigate = useNavigation() as any
 
     useEffect(() => {
-        if (user?.profile_image != "") setUri(user!.profile_image)
-    }, [])
+        if (user?.profile_image) setUri(user!.profile_image)
+    }, [user])
 
     function add(){
         setError("")
@@ -36,6 +39,14 @@ export default function Profile(){
     async function pickImage(){
         const uri = await usePickImage() as string
         setImageUri(uri)
+    }
+
+    async function signOut(){
+        dispatch({ type: ContactsTypes.REMOVE_ALL })
+        dispatch({ type: MessagesTypes.REMOVE_ALL })
+        socket.disconnect()
+        await SignOut()
+        navigate.push("signin")
     }
 
     return(
@@ -57,16 +68,20 @@ export default function Profile(){
                         <Text>{load}</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
-                    <TouchableOpacity style={style.signOut} onPress={() => pickImage()}>
-                        <Text>Select an Image</Text>
+                <View style={style.changeImageForm}>
+                <Text style={style.formTitle}>Change Image</Text>
+                    <TouchableOpacity style={style.changeImageFormFile} onPress={() => pickImage()}>
+                        <Text>{imageUri != "" ? "Selected" : "Select an Image"}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.signOut} onPress={() => ChangeProfileImage({ uri: imageUri})}>
+                    <View style={style.error}>
+                        <Text style={style.textError}>{imageError}</Text>
+                    </View>
+                    <TouchableOpacity style={style.changeImageFormButton} onPress={() => {setImageError("");ChangeProfileImage({ uri: imageUri, setError: setImageError });setImageUri("")}}>
                         <Text>Save</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={style.buttonLocal}>
-                    <TouchableOpacity style={style.signOut} onPress={() => {SignOut()/ navigate.push("signin")}}>
+                    <TouchableOpacity style={style.signOut} onPress={signOut}>
                         <Text>Sign Out</Text>
                     </TouchableOpacity>
                 </View>

@@ -76,7 +76,9 @@ export default function SignIn(){
                         </View>
                     </View>
                 :
-                null
+                    <View style={style.loading}>
+                        <Text>loading</Text>
+                    </View>
             }
         </>
     )

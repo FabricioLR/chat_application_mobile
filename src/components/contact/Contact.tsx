@@ -23,11 +23,11 @@ export default function Contact(props: ContactProps){
 
     useEffect(() => {
         if (user?.id == props.contact.user1.id){
-            if (props.contact.user2.profile_image != ""){
+            if (props.contact.user2.profile_image){
                 setUri(props.contact.user2.profile_image)
             }
         } else {
-            if (props.contact.user1.profile_image != ""){
+            if (props.contact.user1.profile_image){
                 setUri(props.contact.user1.profile_image)
             }
         }

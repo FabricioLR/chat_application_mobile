@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet } from "react-native";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     local: {
@@ -115,6 +115,13 @@ const style = StyleSheet.create({
     },
     link: {
         color: "#8300d5"
+    },
+    loading: {
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     }
 })  
 

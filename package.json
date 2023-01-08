@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build": "eas build -p android --profile preview"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.3",
@@ -17,6 +18,9 @@
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.2",
     "expo": "~47.0.9",
+    "expo-device": "^5.0.0",
+    "expo-image-picker": "~14.0.2",
+    "expo-notifications": "~0.17.0",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
@@ -30,8 +34,7 @@
     "redux": "^4.2.0",
     "redux-saga": "^1.2.2",
     "socket.io-client": "^4.5.4",
-    "typesafe-actions": "^5.1.0",
-    "expo-image-picker": "~14.0.2"
+    "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

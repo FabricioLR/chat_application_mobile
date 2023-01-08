@@ -15,7 +15,7 @@ export default function Header(props: HeaderProps){
     const [ uri, setUri ] = useState("")
 
     useEffect(() => {
-        if (user?.profile_image != ""){
+        if (user?.profile_image){
             setUri(user!.profile_image)
         }
     }, [])

@@ -25,7 +25,7 @@ export default function Chat(){
         if (message != ""){
             const date = new Date()
             dispatch({ type: MessagesTypes.MESSAGE_REQUEST, payload: { message: { message, fromId: user?.id, contactId: State.contacts.currentContact?.contactId, id: String(Math.floor(Math.random() * 10000)), already: true, createdAt: date.toString() } }})
-            socket.emit("message", { message, to: State.contacts.currentContact?.name, fromId: user?.id, contactId: State.contacts.currentContact?.contactId, createdAt: date.toString() })
+            socket.emit("message", { message, to: State.contacts.currentContact?.name, fromName: State.contacts.currentContact?.name, fromId: user?.id, contactId: State.contacts.currentContact?.contactId, createdAt: date.toString() })
             dispatch({ type: MessagesTypes.ADD_REQUEST, payload: { message, contactId: State.contacts.currentContact?.contactId } })
             setMessage("")
         }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "511448935097",
+    "project_id": "chat-application-5fabe",
+    "storage_bucket": "chat-application-5fabe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511448935097:android:1b655072532e8e65024968",
+        "android_client_info": {
+          "package_name": "com.fabriciolr.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511448935097-mdlmkvsenoreffm7jcr74iubnu8811dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnO6ZMxUS4pgZyVYlmiSHypcD2djGbNwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511448935097-mdlmkvsenoreffm7jcr74iubnu8811dm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,14 +18,17 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.company.calendar",
       "supportsTablet": true
     },
     "android": {
+      "useNextNotificationsApi":true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.fabriciolr.chat"
+      "package": "com.fabriciolr.chat",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,6 +37,15 @@
       "eas": {
         "projectId": "2476e1a5-feea-4636-b334-65727798fb86"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#ffffff",
+          "sounds": []
+        }
+      ]
+    ]
   }
 }

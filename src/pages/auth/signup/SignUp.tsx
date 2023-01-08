@@ -1,5 +1,5 @@
-import { useLinkTo } from "@react-navigation/native";
-import { useContext, useEffect, useState } from "react";
+import {useNavigation } from "@react-navigation/native";
+import { useContext, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { AuthContex } from "../../../context/userContext";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons"
@@ -13,7 +13,7 @@ export default function SignUp(){
     const [show, setShow] = useState(false)
     const [load, setLoad] = useState("Sign Up")
     const [error, setError] = useState("")
-    const navigate = useLinkTo()
+    const navigate = useNavigation()
     const {  Register } = useContext(AuthContex)
 
     async function register(){

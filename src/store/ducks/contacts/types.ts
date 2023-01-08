@@ -1,6 +1,7 @@
 import { User } from "../../../context/userContext"
 
 export enum ContactsTypes{
+    "REMOVE_ALL" = "@Contacts/REMOVE_ALL",
     "LOAD_REQUEST" = "@Contacts/LOAD_REQUEST",
     "LOAD_SUCCESS" = "@Contacts/LOAD_SUCCESS",
     "LOAD_FAILURE" = "@Contacts/LOAD_FAILURE",
@@ -30,16 +31,8 @@ export type Contact = {
     id: string
     user1Id: string
     user2Id: string
-    user1: {
-        id: string
-        name: string
-        profile_image: string
-    }
-    user2: {
-        id: string
-        name: string
-        profile_image: string
-    }
+    user1: User
+    user2: User
 }
 
 export interface CurrentContact extends User {

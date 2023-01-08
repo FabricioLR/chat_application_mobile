@@ -12,6 +12,8 @@ const INITIAL_STATE: ContactsState = {
 
 const reducer: Reducer<ContactsState> = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case ContactsTypes.REMOVE_ALL:
+            return { data: [], search: [], currentContact: null, onlines: null, error: false, loading: false}
         case ContactsTypes.LOAD_REQUEST:
             return { ...state, loading: true }
         case ContactsTypes.LOAD_SUCCESS:

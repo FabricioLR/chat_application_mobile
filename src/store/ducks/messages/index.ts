@@ -10,6 +10,8 @@ const INITIAL_STATE: MessagesState = {
 
 const reducer: Reducer<MessagesState> = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case MessagesTypes.REMOVE_ALL:
+            return { data: [], chat: [], loading: false, error: false }
         case MessagesTypes.LOAD_REQUEST:
             return { ...state, loading: true }
         case MessagesTypes.LOAD_SUCCESS:
